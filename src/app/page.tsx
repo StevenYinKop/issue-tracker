@@ -1,10 +1,15 @@
-import Image from 'next/image'
-import NavBar from './components/NavBar'
-
+import { PlusIcon } from '@radix-ui/react-icons'
+import { Button } from '@radix-ui/themes'
+import Link from 'next/link'
 export default function Home() {
   return (
     <main>
-      Hello World
+      <Button>
+        <PlusIcon width="16" height="16" />
+        <Link href={'/issue/new'}>
+          New Issue
+        </Link>
+      </Button>
     </main>
   )
 }

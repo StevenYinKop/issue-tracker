@@ -20,8 +20,8 @@ const NavBar = () => {
     }];
 
     const getClassnames = (link: {label: string, link: string}) => classnames({
-        'text-zinc-500': currentPath === link.link,
-        'text-zinc-900': currentPath !== link.link,
+        'text-zinc-500': currentPath !== link.link,
+        'text-zinc-900': currentPath === link.link,
         'hover:text-zinc-800 transition-colors': true
     })
 
