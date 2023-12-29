@@ -12,7 +12,7 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
         return notFound();
     }
     return (
-        <Flex my="2" justify="center" gap="4" >
+        <Flex my="2" justify={{ md: "between", sm: "center" }} direction={{ initial: "column", sm: "row" }} gap="4" >
             <Box>
                 <IssueDetails issue={issue} />
             </Box>

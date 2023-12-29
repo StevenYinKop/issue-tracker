@@ -1,24 +1,24 @@
 # issue-tracker
 
-- Install Extensions
+## Install Extensions
 1. `ES7 React/Redux/React Native`
 2. `JavaScript and Typescript Nightly`
 3. `Tailwind CSS IntelliSence`
 4. `Prisma`
 
-- Docker
+## Docker
 
 ```shell
 docker run --name issue-tracker -p 33060:3306 -v /c/users/steven.yin/AppData/Local/Issue-Tracker:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
 
-- initialize new project
+## initialize new project
 1. npx create-next-app@13.4.19
 2. name: issue-tracker
 3. rest of the options are all default
 
 
-- Create new component NavBar.tsx
+## Create new component NavBar.tsx
 1. use shortcut "rafce" to generate the template code
 2. use shortcut "ul>li*2" to generate <ul><li><li>
 3. <li><Link>Dashboard
@@ -27,7 +27,7 @@ docker run --name issue-tracker -p 33060:3306 -v /c/users/steven.yin/AppData/Loc
 6. use a nice logo by react-icons library
 7. add hover effect "text-zinc-500 hover:text-zinc-800" and transition class "transition-colors"
 
-- Create the Issues page
+## Create the Issues page
 1. highlight the active link.
 impot { usePathname } from 'next/navigation';
 const currentPath = usePathname();
@@ -47,7 +47,7 @@ className = {
 }
 
 
-- set up MySQL and Prisma.
+## set up MySQL and Prisma.
 1. npm i prisma@5.3.1
 2. npx prisma init
     1.1 modify "prisma schema" and ".env" file to adjust my own configuration
@@ -71,7 +71,7 @@ enum Status {
 4. npx prisma format
 5. npx prisma migrate dev
 
-- create /app/api/issues/route.ts
+## create /app/api/issues/route.ts
 1. install zod@3.22.2 to validate data
 
 ```typescript
@@ -96,28 +96,28 @@ export async function POST(request: NextRequest) {
 }
 ```
 
-- install Radix UI
+## install Radix UI
 References: Radix UI Get Started
 Follow the handbook to integrate the Radix UI
 
-- create /app/issues/new/page.tsx
+## create /app/issues/new/page.tsx
 <TextField>
 <TextArea>
 
-- Customzing Radix UI Theme
+## Customzing Radix UI Theme
 1. declare <ThemePanel> inside <Theme>
 2. select one favourite theme -> Copy the code -> replace the <Theme>
 
-- Use Inter font instead of System fonts.
+## Use Inter font instead of System fonts.
 1. References: Radix UI typography
 
-- Adding a Markdown Editor
+## Adding a Markdown Editor
 1. React SimpleMDE Markdown Editor
 ```
 npm install --save react-simplemde-editor easymde
 ```
 
-- Handling Form Submission
+## Handling Form Submission
 1. npm install react-hook-form@7.46.1
 ```typescript
 import { useForm, Controller } from 'react-hook-form';
@@ -135,11 +135,11 @@ const { register, control, handleSubmit } = useForm<IssueForm>();
 
 const router = useRouter(); // next/navigation
 
-- Handling Errors
+## Handling Errors
 1. use try/catch
 2. use "Callout" in Radix UI
 
-- Implementing Client-side Validation
+## Implementing Client-side Validation
 1. npm install @hookform/resolvers@3.3.1
 ```typescript
 useForm<IssueForm>({
@@ -154,10 +154,10 @@ type IssueForm = z.infer<typeof createIssueSchema>
 ```
 3. insert error alert below each form component
 
-- Extracting the ErrorMessage Component
+## Extracting the ErrorMessage Component
 1. create /app/components/ErrorMessage.tsx
 
-- Adding a Spinner
+## Adding a Spinner
 1. google "tailwind elements spinner"
 2. create /app/components/Spinner.tsx
 3. use <Spinner> while submitting a new issue
@@ -166,7 +166,7 @@ type IssueForm = z.infer<typeof createIssueSchema>
 
 
 
-- Showing the Issues
+## Showing the Issues
 1. Use prisma.issue.findMany() to fetch multiple data.
 2. Use Radix UI Table to show all data
    1. Issue
@@ -177,10 +177,10 @@ type IssueForm = z.infer<typeof createIssueSchema>
    1. hide status and created only show these in wide screen
    2. className="hidden md:table-cell"
 
-- Building the Issue Status Badge
+## Building the Issue Status Badge
 
 
-- Adding Loading Skeletons
+## Adding Loading Skeletons
 1. npm install delay
 2. use delay to check loading effect
 ```javascript
@@ -190,7 +190,7 @@ await delay(2000)
 4. Follow Skeleton documentation.
 5. Extract New Issue Button to a new component(/app/issues/IssueActions.tsx)
 
-- SHowing Issue Details
+## SHowing Issue Details
 1. /app/issues/[id]/IssueDetailPage.tsx
 2. Use prisma.issue.findUnique({ where: { id: parseInt(params.id) }})
 3. Handle the situation when can not find anything. // notFound()
@@ -198,7 +198,7 @@ await delay(2000)
 5. Add /app/issues/[id]/loading.tsx for IssueDetailPage
 6. Add /app/issues/new/loading.tsx for NewIssuePage
 
-- Styling the Issue Detail Page 
+## Styling the Issue Detail Page 
 
 ```html
 <Flex my="2" >
@@ -207,19 +207,19 @@ await delay(2000)
 ```
 
 
-- Adding Markdown Preview
+## Adding Markdown Preview
 1. ```shell
 npm install react-markdown@8.0.7
 ```
 1. google tailwindcss typography ( Beautiful typographic defaults for HTML you don't control )
 
-*- Building Linked Component*?
+*## Building Linked Component*?
 1. use 'next/link'
 2. import { Link as RadixLink } from '@radix-ui/themes'
 3. combine both of them together.
 4. google "nextjs link component" - passHref lagacyBehavior
 
-- Additional Loading Skeletons
+## Additional Loading Skeletons
 1. Use react-loading-skeleton for all pages. (details, new)
 ```jsx
 <Box>
@@ -230,27 +230,27 @@ npm install react-markdown@8.0.7
 ```
 2. use Await delay to check the skeleton.
 
-- Disabling Server-side Rendering on New page
+## Disabling Server-side Rendering on New page
 1. 'navigator is not defined'
 Because all codes are generated on server side, 
 import dynamic from 'next/dynamic';
 
 const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
-- Refactoring-Organizing imports
+## Refactoring-Organizing imports
 1. Managing all components in index.ts
 2. extracting Skeleton as a custom components with import ts and css together
 
-- Adding the Edit Button
+## Adding the Edit Button
 1. Use <Grid> to split the Detail Page into 2.
 2. Use Breakpoints to identity the responsive layout.
 3. Add Edit Button in the second column, redirect to `/issue/${id}/edit`
 
-- Applying the Single Responsibility Principle
+## Applying the Single Responsibility Principle
 1. Extracting Edit Issue logic to /app/issue/[id]/EditIssueButton.tsx
 2. Extracting Details logic to /app/issue/[id]/IssueDetails.tsx
 
-- Building the Edit Issue Page
+## Building the Edit Issue Page
 1. create '/app/issue/[id]/edit/page.tsx'
 2. create '/app/issue/_components/IssueForm.tsx'
 3. Refactor New Issue by <IssueForm />
@@ -261,7 +261,7 @@ interface Props {
 }
 ```
 
-- Building an API for Editing Issue
+## Building an API for Editing Issue
 1. new file: '/app/api/issue/[id]/route.ts'
 2. Rename createIssueSchema
 3. validate the input
@@ -273,7 +273,7 @@ export async function PATH(request: NextRequest, { params }: { params: {id: stri
 
 }
 ```
-- Caching
+## Caching
 Reference: google "Nextjs Route Segment Config"
 1. Data Caching
    1. When we fetch data using fetch()
@@ -286,15 +286,20 @@ Reference: google "Nextjs Route Segment Config"
    2. Lasts for a session
    3. Get a refresh when we reload
 
-- Improving the Loading Experience
+```typescript
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+```
+
+## Improving the Loading Experience
 1. Let Text and MDE appear together
 ```tsx
 dynamic(() => import('xx'), { ssr: false, loading: () => <>Loading...</> })
 ```
-2. Add Skeleton for Edit Issue page and New Issue page
+1. Add Skeleton for Edit Issue page and New Issue page
 
 
-- Adding a Delete Button as a separate Component: /issue/[id]/DeleteIssueButton.tsx
+## Adding a Delete Button as a separate Component: /issue/[id]/DeleteIssueButton.tsx
 1. Button are inline element of HTML -> set flex to put two buttons vertically
 ```typescript
 <Flex gap="2" direction="column">
@@ -302,15 +307,15 @@ dynamic(() => import('xx'), { ssr: false, loading: () => <>Loading...</> })
 2. Adjust Button layout in different resolutions(Mobile/Tablet/PC).
 3. Use <Container />
 
-- Adding a Confirmation Dialog Box
+## Adding a Confirmation Dialog Box
 1. Reference: AlertDialog in Radix UI.
 
-- Building an API for deleting an issue.
+## Building an API for deleting an issue.
 
-- Adding another AlertDialog to handle the issue if there is an error.
-- Adding Spinner and disable the deleteButton while deleting is underway.
+## Adding another AlertDialog to handle the issue if there is an error.
+## Adding Spinner and disable the deleteButton while deleting is underway.
   
-- Setting Up NextAuth
+## Setting Up NextAuth
 1. npm i next-auth
 2. Follow offical guide:
    1. create /api/auth/[...nextauth]/route.ts
@@ -323,17 +328,17 @@ NEXTAUTH_SECRET="xxxxx"
 
 4. generate a random string: `openssl rand -base64 32``
 
-- Configuring Google Provider: https://console.cloud.google.com
+## Configuring Google Provider: https://console.cloud.google.com
 1. Follow the documentation in website: "Google | NextAuth.js"
 
-- Adding the Prisma Adapter 
+## Adding the Prisma Adapter 
 1. Follow the documentation: @auth/prisma-adapter
 2. grap all models in the schema.prisma
 3. npx prisma migrate dev
 4. `npm install @next-auth/prisma-adapter@1.0.7`
 5. add {session: 'jwt'} in NextAuth({});
 
-- Adding the Login and Logout Links
+## Adding the Login and Logout Links
 1. const { status, data } = useSession();
 {status === "authenticated" && <Link href="/api/auth/signout">Log out</Link>}
 {status === "unauthenticated" && <Link href="/api/auth/signin">Login</Link>}
@@ -347,14 +352,14 @@ const AuthProvider = () => {
 ```
 3. wrap our website into the AuthProvider
 
-- Change the Layout of the NavBar. 
+## Change the Layout of the NavBar. 
 1. `justify-content: space-between`.
 2. Wrap everything inside a <Container>
 
-- Adding a Drop-down Menu
+## Adding a Drop-down Menu
 1. Using DropdownMenu from Radix UI
 
-- fix CORS issue: 
+## fix CORS issue: 
 1. referrerPolicy='no-referrer'
 2. Add configuration in `next.config.ts`
 ```typescript
@@ -372,7 +377,7 @@ const nextConfig = {
 }
 ```
 
-- Refactoring the Navigation Bar code
+## Refactoring the Navigation Bar code
 1. Extract each part into components
 2. control + shift + command + 'right arrow': select Expand
 3. 
@@ -387,8 +392,8 @@ const nextConfig = {
 <Link className="nav-link">
 ```
 
-- Adding loading Skeleton for Login Icon
-- Securing the Application
+## Adding loading Skeleton for Login Icon
+## Securing the Application
 1. Adding middleware function `/middleware.ts`
 ```typescript
 export { default } from "next-auth/middleware"
