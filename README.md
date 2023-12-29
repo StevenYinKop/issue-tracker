@@ -1,10 +1,16 @@
 # issue-tracker
 
 - Install Extensions
-1. ES7 React/Redux/React Native
-2. JavaScript and Typescript Nightly
-3. Tailwind CSS INtelliSence
-4. Prisma
+1. `ES7 React/Redux/React Native`
+2. `JavaScript and Typescript Nightly`
+3. `Tailwind CSS IntelliSence`
+4. `Prisma`
+
+- Docker
+
+```shell
+docker run --name issue-tracker -p 33060:3306 -v /c/users/steven.yin/AppData/Local/Issue-Tracker:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+```
 
 - initialize new project
 1. npx create-next-app@13.4.19
@@ -176,7 +182,7 @@ type IssueForm = z.infer<typeof createIssueSchema>
 
 - Adding Loading Skeletons
 1. npm install delay
-2. use delay
+2. use delay to check loading effect
 ```javascript
 await delay(2000)
 ```
@@ -207,7 +213,7 @@ npm install react-markdown@8.0.7
 ```
 1. google tailwindcss typography ( Beautiful typographic defaults for HTML you don't control )
 
-- Building Linked Component
+*- Building Linked Component*?
 1. use 'next/link'
 2. import { Link as RadixLink } from '@radix-ui/themes'
 3. combine both of them together.

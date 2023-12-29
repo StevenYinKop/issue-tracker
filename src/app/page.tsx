@@ -1,14 +1,12 @@
-import { PlusIcon } from '@radix-ui/react-icons'
-import { Button, Table, Text } from '@radix-ui/themes'
+import { Link, Table, Text } from '@radix-ui/themes'
 import prisma from '@p/client'
-import Link from 'next/link'
-import delay from 'delay';
-import IssueStatusBadge from './components/IssueStatusBadge';
+// import Link from 'next/link'
+
+import { IssueStatusBadge } from '@/app/components';
 import IssueActions from './issue/IssueActions';
 
 export default async function Home() {
   const issues = await prisma.issue.findMany();
-  await delay(2000)
   return (
     <main>
       <IssueActions />
@@ -21,9 +19,17 @@ export default async function Home() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
+          {issues.length === 0 && <Table.Row>
+            <Table.Cell align="center" colSpan={3}>
+              <Text>
+                No Data
+              </Text>
+            </Table.Cell>
+          </Table.Row>}
           {issues.map(issue => (
             <Table.Row key={issue.id}>
-              <Table.Cell><Link href={`/issue/${issue.id}`}>{issue.title}</Link> {
+              <Table.Cell>
+                <Link href={`/issue/${issue.id}`}>{issue.title}</Link> {
                 <div className='block md:hidden'>
                   <IssueStatusBadge size='1' status={issue.status} />
                 </div>

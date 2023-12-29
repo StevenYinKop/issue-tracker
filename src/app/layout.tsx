@@ -1,10 +1,10 @@
-import './globals.css'
-import './theme-config.css'
+import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
-import type { Metadata } from 'next'
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import NavBar from './components/NavBar'
-import { Theme, ThemePanel } from '@radix-ui/themes';
+import { NavBar } from './components';
+import './globals.css';
+import './theme-config.css';
 
 
 export const metadata: Metadata = {
