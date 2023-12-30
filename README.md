@@ -409,6 +409,50 @@ export const config = {
 3. const session = getServerSession(authOptions) to check if there is a session available;
 
 
+## Building the Assignee Select Component
+1. `/app/issue/[id]/_components/AssigneeSelect.tsx`
+2. fetch data by `axios` to get `users`
+3. Building the API `/app/api/users/route.ts` (Add NextRequest parameter to avoid caching)
+4. Use React Query to fetch data from this API.
+
+## Add column `assignedToUserId` & `assignedToUser` in Issue Schema
+1. connect `asignedToUser` with `Issue` table by primary key
+2. Add `assignedIssues Issue[]` in `User` Table
+3. execute `npx prisma migrate dev`
+
+## Implementing the assigning user API
+1. create new zod schema to check different fields in different situations.
+
+## Showing Toast Nitifications after succeed or failed
+1. `npm install react-hot-toast@2.4.1`
+
+## Refactoring the Assignee Select Component
+
+
+## Building the Filter Component
+1. new file `/app/issue/list/IssueStatusFilter.tsx` with `Select` in `Radix UI`;
+2. Add this component inside list page.
+3. Register the onValueChange event to filter issues by status
+4. Making Columns Sortable.
+   1. extracting columns of the table
+   ```ts
+    const columns: {label: string; value: keyof Issue; className?: string}[];
+   ```
+   2. Add link for each title, href is `/issue/list?orderby=${columnValue}`, but still keep the existing parameters, so we should use href={{ query: { ...searchParams, orderBy: columnValue }}};
+   3. Add Arrow Icon to indicate descent or ascent.
+5. Using URLSearchParams to assemble Params
+
+## Using ChatGPT to generate dummy data
+## Building the Pagination Component
+
+
+## Building the LatestIssues Component
+## Building the IssueSummary Component
+1. Summarising issues in three dimonsions: OPEN, IN_PROGRESS and CLOSED.
+## Building the BarChart Component
+1. `npm install recharts@2.8.0`
+2. `const { ResponsiveContainer, BarChart, XAxis, YAxis, Bar } from 'recharts'`
+3. Check color variables in browser, got the --accent-9
 
 
 ## Using dotenv to specify the environment.
