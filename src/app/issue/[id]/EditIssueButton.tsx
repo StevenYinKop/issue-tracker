@@ -1,54 +1,54 @@
 "use client";
-import { Issue } from '@prisma/client'
-import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons'
-import { AlertDialog, Button, Flex, Text } from '@radix-ui/themes'
-import Link from 'next/link'
+import { Spinner } from '@/app/components';
+import { Issue } from '@prisma/client';
+import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
+import { AlertDialog, Button, Dialog, Flex, Text } from '@radix-ui/themes';
+import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import delay from 'delay';
 
 const EditIssueButton = ({ issue }: { issue: Issue }) => {
+    const router = useRouter();
+    const [open, setOpen] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+    const deleteIssue = async () => {
+        try {
+            setLoading(true);
+            await delay(2000);
+            const response = await axios.delete(`/api/issue/${issue.id}`);
+            if (response.status === 200) {
+                setOpen(false);
+                router.push("/");
+            } else {
+                // response.data
+            }
+        } catch (error: any) {
+            setOpen(true)
+            setError(error?.response?.data);
+        } finally {
+            setLoading(false);
+        }
+    };
     return (
         <Flex direction="column" gap="3">
-            <Button>
+            <Button disabled={loading}>
                 <Link href={`/issue/${issue.id}/edit`}>Edit Issue</Link>
                 <Pencil2Icon />
             </Button>
             <AlertDialog.Root>
                 <AlertDialog.Trigger>
-                    <Button color="red">Revoke access</Button>
-                </AlertDialog.Trigger>
-                <AlertDialog.Content style={{ maxWidth: 450 }}>
-                    <AlertDialog.Title>Revoke access</AlertDialog.Title>
-                    <AlertDialog.Description size="2">
-                        Are you sure? This application will no longer be accessible and any
-                        existing sessions will be expired.
-                    </AlertDialog.Description>
-
-                    <Flex gap="3" mt="4" justify="end">
-                        <AlertDialog.Cancel>
-                            <Button variant="soft" color="gray">
-                                Cancel
-                            </Button>
-                        </AlertDialog.Cancel>
-                        <AlertDialog.Action>
-                            <Button variant="solid" color="red">
-                                Revoke access
-                            </Button>
-                        </AlertDialog.Action>
-                    </Flex>
-                </AlertDialog.Content>
-            </AlertDialog.Root>
-
-            <AlertDialog.Root>
-                <AlertDialog.Trigger>
-                    <Button color="blue">
+                    <Button className='cursor-pointer' color="red" disabled={loading}>
                         <Text>Remove Issue</Text>
-                        <TrashIcon />
+                        {loading ? <Spinner /> : <TrashIcon />}
                     </Button>
                 </AlertDialog.Trigger>
                 <AlertDialog.Content style={{ maxWidth: 450 }}>
                     <AlertDialog.Title>Are you sure you want to delete this issue?</AlertDialog.Title>
                     <AlertDialog.Description size="2">
-                        This action cannot be undone. This will permanently delete your account and remove your
-                        data from our servers.
+                        This action cannot be undone. This will permanently delete this issue from our servers.
                     </AlertDialog.Description>
                     <Flex gap="3" mt="4" justify="end">
                         <AlertDialog.Cancel>
@@ -57,15 +57,34 @@ const EditIssueButton = ({ issue }: { issue: Issue }) => {
                             </Button>
                         </AlertDialog.Cancel>
                         <AlertDialog.Action>
-                            <Button variant="soft" color="red">
+                            <Button variant="soft" color="red" onClick={deleteIssue}>
                                 Delete
                             </Button>
                         </AlertDialog.Action>
                     </Flex>
                 </AlertDialog.Content>
             </AlertDialog.Root>
+
+            <Dialog.Root open={open} onOpenChange={setOpen}>
+                <Dialog.Content>
+                    <Dialog.Title>Error</Dialog.Title>
+                    <Dialog.Description>
+                        {error}
+                    </Dialog.Description>
+
+                    <Flex gap="3" justify="end">
+                        <Dialog.Close>
+                            <Button variant="soft" color="gray">
+                                Close
+                            </Button>
+                        </Dialog.Close>
+                    </Flex>
+                </Dialog.Content>
+            </Dialog.Root>
+
         </Flex>
     )
 }
 
 export default EditIssueButton
+

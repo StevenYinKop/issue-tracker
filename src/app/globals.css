@@ -1,7 +1,7 @@
 @import "tailwindcss/base";
 @import "@radix-ui/themes/styles.css";
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 :root {
   --foreground-rgb: 0, 0, 0;

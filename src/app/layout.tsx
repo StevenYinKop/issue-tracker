@@ -5,6 +5,7 @@ import { Container, Theme } from '@radix-ui/themes';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { NavBar } from './components';
+import { PropsWithChildren } from "react";
 
 
 export const metadata: Metadata = {
@@ -18,16 +19,13 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: PropsWithChildren) {
+  // children: React.ReactNode,
   return (
     <html lang="en" className={inter.variable}>
       <body>
         <Theme>
-        {/* <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%"> */}
+          {/* <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%"> */}
           <NavBar></NavBar>
           <main className='pl-5'>
             <Container>

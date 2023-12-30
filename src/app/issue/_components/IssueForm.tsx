@@ -18,7 +18,7 @@ type IssueForm = z.infer<typeof issueSchema>
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
     const isEditingMode = !!issue;
-    
+
     const { register, control, handleSubmit, formState: { errors } } = useForm<IssueForm>({
         resolver: zodResolver(issueSchema)
     });
@@ -37,7 +37,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
             func()
                 .then(response => {
                     if (response.status === 200 || response.status === 201) {
-                        router.replace("/")
+                        router.push("/")
                     } else {
                         setError(response.statusText);
                     }
