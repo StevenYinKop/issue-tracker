@@ -3,8 +3,11 @@ import { Box, Flex } from '@radix-ui/themes';
 import { notFound } from 'next/navigation';
 import EditIssueButton from './EditIssueButton';
 import IssueDetails from './IssueDetails';
+import { getServerSession } from 'next-auth';
+
 
 const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
+    const session = await getServerSession()
     const issue = await prisma.issue.findUnique({
         where: { id: parseInt(params.id) }
     });
@@ -17,7 +20,7 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
                 <IssueDetails issue={issue} />
             </Box>
             <Box>
-                <EditIssueButton issue={issue} />
+                {!!session?.user && <EditIssueButton issue={issue} />}
             </Box>
         </Flex>
     )

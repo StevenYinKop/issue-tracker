@@ -6,6 +6,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { NavBar } from './components';
 import { PropsWithChildren } from "react";
+import AuthProvider from "./providers/AuthProvider";
 
 
 export const metadata: Metadata = {
@@ -20,20 +21,21 @@ const inter = Inter({
 });
 
 export default function RootLayout({ children }: PropsWithChildren) {
-  // children: React.ReactNode,
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <Theme>
-          {/* <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%"> */}
-          <NavBar></NavBar>
-          <main className='pl-5'>
-            <Container>
-              {children}
-            </Container>
-          </main>
-          {/* <ThemePanel /> */}
-        </Theme>
+        <AuthProvider>
+          <Theme>
+            {/* <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%"> */}
+            <NavBar />
+            <main className='pl-5'>
+              <Container>
+                {children}
+              </Container>
+            </main>
+            {/* <ThemePanel /> */}
+          </Theme>
+        </AuthProvider>
       </body>
     </html>
   )

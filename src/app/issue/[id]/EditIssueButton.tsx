@@ -7,7 +7,6 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import delay from 'delay';
 
 const EditIssueButton = ({ issue }: { issue: Issue }) => {
     const router = useRouter();
@@ -17,7 +16,6 @@ const EditIssueButton = ({ issue }: { issue: Issue }) => {
     const deleteIssue = async () => {
         try {
             setLoading(true);
-            await delay(2000);
             const response = await axios.delete(`/api/issue/${issue.id}`);
             if (response.status === 200) {
                 setOpen(false);

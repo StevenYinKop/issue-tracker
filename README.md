@@ -409,6 +409,8 @@ export const config = {
 3. const session = getServerSession(authOptions) to check if there is a session available;
 
 
+
+
 ## Using dotenv to specify the environment.
 ```
 "prisma:migrate:dev": "dotenv -e .env.local -- npx prisma migrate dev"

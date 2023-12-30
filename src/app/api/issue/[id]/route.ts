@@ -1,8 +1,14 @@
-import prisma from '@p/client';
-import { NextRequest, NextResponse } from "next/server";
 import { issueSchema } from '@/app/schemas/issueSchema';
+import prisma from '@p/client';
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+    const session = await getServerSession();
+    if (!session) {
+        return NextResponse.json({}, { status: 401 });
+    }
+
     const issue = await prisma.issue.findUnique({ where: { id: parseInt(params.id) } })
     if (!issue)
         return NextResponse.json("Not Found!", { status: 404 });
@@ -22,6 +28,10 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+    const session = await getServerSession();
+    if (!session) {
+        return NextResponse.json({}, { status: 401 });
+    }
     const issue = await prisma.issue.findUnique({ where: { id: parseInt(params.id) } })
     if (!issue)
         return NextResponse.json("Not Found!", { status: 404 });

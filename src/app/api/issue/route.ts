@@ -1,10 +1,15 @@
 import { issueSchema } from '@/app/schemas/issueSchema';
 import prisma from '@p/client';
+import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 // const prisma = new PrismaClient()
 // use `prisma` in your application to read and write data in your DB
 
 export async function POST(request: NextRequest) {
+    const session = await getServerSession();
+    if (!session) {
+        return NextResponse.json({}, { status: 401 });
+    }
     const body = await request.json();
     const validation = issueSchema.safeParse(body);
     if (!validation.success) {

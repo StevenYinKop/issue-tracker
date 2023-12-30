@@ -1,16 +1,15 @@
 'use client';
-import Link from 'next/link'
-import { LuListTodo } from "react-icons/lu";
-import React from 'react'
-import { usePathname } from 'next/navigation';
+import { Avatar, Box, Container, DropdownMenu, Flex } from '@radix-ui/themes';
 import classnames from 'classnames';
-import { Container, Flex } from '@radix-ui/themes';
+import { useSession } from "next-auth/react";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { LuListTodo } from "react-icons/lu";
 
 const NavBar = () => {
 
     const currentPath = usePathname();
-
-    console.log(currentPath)
+    const { status, data: user } = useSession();
 
     const links = [{
         label: 'Dashboard',
@@ -21,10 +20,9 @@ const NavBar = () => {
     }];
 
     const getClassnames = (link: { label: string, link: string }) => classnames({
-        'text-zinc-500': currentPath !== link.link,
-        'text-zinc-900': currentPath === link.link,
-        'hover:text-zinc-800 transition-colors': true
-    })
+        'nav-link': true,
+        'text-zinc-900': currentPath === link.link
+    });
 
 
 
@@ -32,22 +30,57 @@ const NavBar = () => {
         // <nav className='border-b mb-5 px-5 h-14'>
         <nav className="border-b mb-5 px-5 py-3">
             <Container>
-                <Flex align="center" gap="4">
-                    <Link href={"/"} className=''>
-                        <LuListTodo></LuListTodo>
-                    </Link>
-                    <ul className='flex space-x-6'>
-                        {links
-                            .map(link =>
-                            (<Link
-                                className={getClassnames(link)}
-                                href={link.link}
-                                key={link.label}>
-                                {link.label}
-                            </Link>)
-                            )
+                <Flex align="center" gap="4" justify="between">
+                    <Box >
+                        <Flex align="center" gap="4">
+                            <Link href={"/"} className=''>
+                                <LuListTodo></LuListTodo>
+                            </Link>
+                            <ul className='flex space-x-6'>
+                                {links
+                                    .map(link =>
+                                    (
+                                        <li key={link.label}>
+                                            <Link
+                                                className={getClassnames(link)}
+                                                href={link.link}
+                                            >
+                                                {link.label}
+                                            </Link>
+                                        </li>)
+                                    )
+                                }
+                            </ul>
+                        </Flex>
+                    </Box>
+                    <Box>
+                        {status === "authenticated" ?
+                            <DropdownMenu.Root>
+                                <DropdownMenu.Trigger>
+                                    <Avatar
+                                        className='cursor-pointer'
+                                        radius="full"
+                                        src={user.user?.image!}
+                                        fallback={user.user?.name!}
+                                    />
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Content>
+                                    <DropdownMenu.Label>
+                                        {user.user?.email}
+                                    </DropdownMenu.Label>
+                                    <DropdownMenu.Item>
+                                        <Link href={"/api/auth/signout"}>
+                                            Log Out
+                                        </Link>
+                                    </DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Root>
+                            :
+                            <Link href={"/api/auth/signin"}
+                                className="nav-link"
+                            >Sign In</Link>
                         }
-                    </ul>
+                    </Box>
                 </Flex>
             </Container>
         </nav>
