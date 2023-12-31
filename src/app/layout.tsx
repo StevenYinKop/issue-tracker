@@ -7,6 +7,7 @@ import { Inter } from 'next/font/google';
 import { NavBar } from './components';
 import { PropsWithChildren } from "react";
 import AuthProvider from "./providers/AuthProvider";
+import QueryClientProvider from "./providers/QueryClientProvider";
 
 
 export const metadata: Metadata = {
@@ -24,18 +25,20 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <AuthProvider>
-          <Theme>
-            {/* <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%"> */}
-            <NavBar />
-            <main className='pl-5'>
-              <Container>
-                {children}
-              </Container>
-            </main>
-            {/* <ThemePanel /> */}
-          </Theme>
-        </AuthProvider>
+        <QueryClientProvider>
+          <AuthProvider>
+            <Theme>
+              {/* <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%"> */}
+              <NavBar />
+              <main className='pl-5'>
+                <Container>
+                  {children}
+                </Container>
+              </main>
+              {/* <ThemePanel /> */}
+            </Theme>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   )

@@ -17,6 +17,9 @@ model Issue {
   status      Status   @default(OPEN)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  assignee    String?   @db.VarChar(255)
+
+  user User? @relation(fields: [assignee], references: [id], onDelete: Cascade)
 }
 
 enum Status {
@@ -61,6 +64,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  issues        Issue[]
 }
 
 model VerificationToken {

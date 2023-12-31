@@ -414,6 +414,7 @@ export const config = {
 2. fetch data by `axios` to get `users`
 3. Building the API `/app/api/users/route.ts` (Add NextRequest parameter to avoid caching)
 4. Use React Query to fetch data from this API.
+5. React Query uses queryClient in React Context, so we should declare a Provider to wrap our application.
 
 ## Add column `assignedToUserId` & `assignedToUser` in Issue Schema
 1. connect `asignedToUser` with `Issue` table by primary key
@@ -452,7 +453,38 @@ export const config = {
 ## Building the BarChart Component
 1. `npm install recharts@2.8.0`
 2. `const { ResponsiveContainer, BarChart, XAxis, YAxis, Bar } from 'recharts'`
-3. Check color variables in browser, got the --accent-9
+3. Check color variables in browser, get the variable named `--accent-9`
+
+## Adding Metadaa
+1. 
+```typescript
+export const metadata: Metadata = {
+    title: '',
+    description: '',
+};
+```
+```typescript
+export async function generateMetadata({ params }: Props) {
+    // ...
+    return {
+        title: issue?.title,
+        description: 'xxx'
+    }
+}
+```
+
+## Using React Cache to optimize Performance
+```typescript
+const fetchUsers = cache((issueId: number) => {
+    return await prisma.issue.findUnique({
+        where: {
+            id: issueId
+        }
+    })
+})
+```
+
+
 
 
 ## Using dotenv to specify the environment.

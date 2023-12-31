@@ -7,12 +7,14 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import AssigneeSelect from '../_components/AssigneeSelect';
 
 const EditIssueButton = ({ issue }: { issue: Issue }) => {
     const router = useRouter();
     const [open, setOpen] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
+
     const deleteIssue = async () => {
         try {
             setLoading(true);
@@ -32,6 +34,7 @@ const EditIssueButton = ({ issue }: { issue: Issue }) => {
     };
     return (
         <Flex direction="column" gap="3">
+            <AssigneeSelect issue={issue} />
             <Button disabled={loading}>
                 <Link href={`/issue/${issue.id}/edit`}>Edit Issue</Link>
                 <Pencil2Icon />
@@ -62,7 +65,6 @@ const EditIssueButton = ({ issue }: { issue: Issue }) => {
                     </Flex>
                 </AlertDialog.Content>
             </AlertDialog.Root>
-
             <Dialog.Root open={open} onOpenChange={setOpen}>
                 <Dialog.Content>
                     <Dialog.Title>Error</Dialog.Title>
