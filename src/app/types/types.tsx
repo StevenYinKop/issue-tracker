@@ -19,3 +19,9 @@ export type IssueListSearchParams = {
     page: string,
     size: string
 }
+
+export type ChartType = {
+    name: string,
+    open: number,
+    inProgress: number
+}
