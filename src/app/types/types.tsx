@@ -1,4 +1,4 @@
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 
 export type StatusFilterItems = Status | "all"
@@ -11,3 +11,11 @@ export type Column = {
     className?: string;
     field: string;
 }
+
+export type IssueListSearchParams = {
+    status: StatusFilterItems,
+    orderBy: keyof Issue,
+    direction: typeof orderArray[number],
+    page: string,
+    size: string
+  }
