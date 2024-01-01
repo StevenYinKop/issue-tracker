@@ -2,12 +2,13 @@ import { Issue, User } from '@prisma/client'
 import { Select } from '@radix-ui/themes'
 import { useQuery } from '@tanstack/react-query'
 import { Skeleton } from '@/app/components';
+import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios'
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     // fetch user List
     // const response = await axios.get("/api/users");
-    const { data, error, isError, isFetching } =
+    const { data, isFetching } =
         useQuery({
             queryKey: ['users'],
             queryFn: () => axios.get<User[]>("/api/users"),
@@ -15,12 +16,18 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
         });
 
     const assignUser = async (id: string) => {
-        const data = await axios.patch(`/api/issue/${issue.id}`, {
-            assignee: id
-        })
+        try {
+            await axios.patch(`/api/issue/${issue.id}`, {
+                assignee: id
+            });
+            toast.success(`The issue is assigned!`)
+        } catch {
+            toast.error(`The issue can't be assigned!`)
+        }
     }
     return (
         <>
+            <Toaster />
             {isFetching
                 ? <Skeleton />
                 : (
