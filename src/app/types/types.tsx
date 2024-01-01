@@ -4,7 +4,7 @@ import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 export type StatusFilterItems = Status | "all"
 
 export const orderArray = ["", "asc", "desc"];
-export const orderIconArray = [null, <ArrowUpIcon />, <ArrowDownIcon />];
+export const orderIconArray = [null, <ArrowUpIcon key={"arrowup"} />, <ArrowDownIcon key="arrowdown" />];
 
 export type Column = {
     label: string;
@@ -18,4 +18,4 @@ export type IssueListSearchParams = {
     direction: typeof orderArray[number],
     page: string,
     size: string
-  }
+}

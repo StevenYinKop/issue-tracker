@@ -34,7 +34,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
                     <Select.Root onValueChange={assignUser} defaultValue={issue.assignee || undefined}>
                         <Select.Trigger />
                         <Select.Content>
-                            {data?.data.map(user => <Select.Item value={user.id}>{user.name}</Select.Item>)}
+                            {data?.data.map(user => <Select.Item key={user.id} value={user.id}>{user.name}</Select.Item>)}
                         </Select.Content>
                     </Select.Root>)
             }
