@@ -15,8 +15,14 @@ const Dashboard = async () => {
           }
         }
       }
-    }
-  })
+    },
+    orderBy: {
+      issues: {
+        _count: 'desc'
+      }
+    },
+    take: 10
+  });
   const data: ChartType[] = [];
   users.forEach(user => {
     const record = { name: user.name!, open: 0, inProgress: 0 };
