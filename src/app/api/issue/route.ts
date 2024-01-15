@@ -15,10 +15,11 @@ export async function POST(request: NextRequest) {
     if (!validation.success) {
         return NextResponse.json(validation.error.errors, { status: 400 });
     }
+    const { title, description, company, companyLink, jobLink, phoneNumber, email, tags, location, workModel } = body;
     // import single prisma client
     // google how to create prisma client in /prisma/client.ts.
     const newIssue = await prisma.issue.create({
-        data: { title: body.title, description: body.description },
+        data: { title, description, company, companyLink, jobLink, phoneNumber, email, tags, location, workModel },
     });
     return NextResponse.json(newIssue, { status: 201 })
 }

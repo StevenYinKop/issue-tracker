@@ -4,8 +4,9 @@ import SummaryCards from './_components/SummaryCards'
 import BarChart from './_components/BarChart'
 import prisma from '@p/client';
 import { ChartType } from '../types/types';
+import { useQuery } from '@tanstack/react-query';
 
-const Dashboard = async () => {
+const fetchChartTypes = async () => {
   const users = await prisma.user.findMany({
     include: {
       issues: {
@@ -32,6 +33,15 @@ const Dashboard = async () => {
     });
     data.push(record);
   })
+  return data;
+}
+
+const Dashboard = () => {
+  const { data } = useQuery<ChartType[]>({
+    queryKey: ['dashBoard_table'],
+    queryFn: fetchChartTypes,
+    retry: 3
+  });
   return (
     <Flex gap="4" justify="between">
       <Flex direction="column" gap="2">
@@ -43,10 +53,12 @@ const Dashboard = async () => {
         </Box>
       </Flex>
       <Box >
-        <BarChart data={data} />
+        <BarChart data={data!} />
       </Box>
     </Flex >
   )
 }
 
+// export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export default Dashboard

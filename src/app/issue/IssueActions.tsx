@@ -15,7 +15,8 @@ const IssueActions = () => {
         { label: "All", value: "all" },
         { label: "Open", value: Status.OPEN },
         { label: "In Progress", value: Status.IN_PROGRESS },
-        { label: "Closed", value: Status.CLOSED }];
+        // { label: "Closed", value: Status.CLOSED }
+    ];
 
     const filterByStatus = (status: StatusFilterItems) => {
         const urlSearchParams = new URLSearchParams(searchParams);

@@ -5,7 +5,7 @@ import { createIssueSchema } from '@/app/schemas/issueSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Issue } from '@prisma/client';
 import { CheckIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import { Button, Callout, TextFieldInput } from '@radix-ui/themes';
+import { Button, Callout, Flex, RadioGroup, Text, TextFieldInput } from '@radix-ui/themes';
 import axios from 'axios';
 import "easymde/dist/easymde.min.css";
 import { useRouter } from 'next/navigation';
@@ -15,11 +15,32 @@ import SimpleMDE from 'react-simplemde-editor';
 import { z } from 'zod';
 
 type IssueForm = z.infer<typeof createIssueSchema>
+type TextInputFieldsType =
+    "title" |
+    "company" |
+    "companyLink" |
+    "jobLink" |
+    "phoneNumber" |
+    "email" |
+    "tags" |
+    "location"
+
+const textInputFields: TextInputFieldsType[]
+    = [
+        "title",
+        "company",
+        "companyLink",
+        "jobLink",
+        "phoneNumber",
+        "email",
+        "tags",
+        "location",
+    ];
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
     const isEditingMode = !!issue;
 
-    const { register, control, handleSubmit, formState: { errors } } = useForm<IssueForm>({
+    const { control, handleSubmit, formState: { errors } } = useForm<IssueForm>({
         resolver: zodResolver(createIssueSchema)
     });
     const router = useRouter();
@@ -27,12 +48,13 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const onSubmit = (data: IssueForm) => {
-        const { title, description } = data;
+        const { title, description, company, companyLink, jobLink, phoneNumber, email, tags, location, workModel } = data;
+        console.log(data);
         try {
             setLoading(true);
             const func = isEditingMode ?
-                () => axios.patch(`/api/issue/${issue.id}`, { title, description }) :
-                () => axios.post('/api/issue', { title, description })
+                () => axios.patch(`/api/issue/${issue.id}`, { title, description,  company, companyLink, jobLink, phoneNumber, email, tags, location, workModel }) :
+                () => axios.post('/api/issue', { title, description,  company, companyLink, jobLink, phoneNumber, email, tags, location, workModel })
 
             func()
                 .then(response => {
@@ -63,12 +85,49 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
                 </Callout.Root>
             }
             <form className='max-w-xl space-y-3' onSubmit={handleSubmit(onSubmit)}>
-                <TextFieldInput
-                    defaultValue={issue?.title}
-                    placeholder="Enter your title"
-                    {...register('title')}
+                {textInputFields.map(
+                    textInputField => (
+                        <div key={textInputField}>
+                            <Controller
+                                name={textInputField}
+                                control={control}
+                                render={({ field }) => <TextFieldInput
+                                    placeholder={`Enter ${textInputField}`}
+                                    {...field}
+                                />}
+                                defaultValue={issue?.[textInputField] || ''} />
+                            <ErrorMessage >{errors[textInputField]?.message}</ErrorMessage>
+                        </div>
+                    )
+                )}
+                <Controller
+                    name="workModel"
+                    control={control}
+                    render={({ field }) => (
+                        <RadioGroup.Root {...field}>
+                            <Flex gap="2" direction="row">
+                                <Text as="label" size="2">
+                                    <Flex gap="2">
+                                        <RadioGroup.Item value="ON_SITE" /> On-Site
+                                    </Flex>
+                                </Text>
+                                <Text as="label" size="2">
+                                    <Flex gap="2">
+                                        <RadioGroup.Item value="HYBRID" /> Hybrid
+                                    </Flex>
+                                </Text>
+                                <Text as="label" size="2">
+                                    <Flex gap="2">
+                                        <RadioGroup.Item value="REMOTE" /> Remote
+                                    </Flex>
+                                </Text>
+                            </Flex>
+                        </RadioGroup.Root>
+                    )}
+                    defaultValue={issue?.workModel}
                 />
-                <ErrorMessage >{errors.title?.message}</ErrorMessage>
+                <ErrorMessage >{errors.workModel?.message}</ErrorMessage>
+
                 <Controller
                     name="description"
                     control={control}

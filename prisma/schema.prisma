@@ -13,6 +13,14 @@ datasource db {
 model Issue {
   id          Int      @id @default(autoincrement())
   title       String   @db.VarChar(255) // varchar(191) - variable character
+  company     String   @db.VarChar(255)
+  companyLink String   @db.Text
+  jobLink     String   @db.Text
+  phoneNumber String   @db.VarChar(255)
+  email       String   @db.VarChar(255)
+  workModel   WorkModel
+  tags        String   @db.VarChar(255)
+  location    String   @db.VarChar(255)
   description String   @db.Text
   status      Status   @default(OPEN)
   createdAt   DateTime @default(now())
@@ -22,10 +30,20 @@ model Issue {
   user User? @relation(fields: [assignee], references: [id], onDelete: Cascade)
 }
 
+enum WorkModel {
+  HYBRID
+  ON_SITE
+  REMOTE
+}
+
 enum Status {
   OPEN
   IN_PROGRESS
-  CLOSED
+  VIEWED
+  REJECTED
+  PHONE_SCREEN
+  TECHNICAL_INTERVIEW
+  BEHAVIOR_INTERVIEW
 }
 
 
