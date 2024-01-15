@@ -8,7 +8,10 @@ import { NavBar } from './components';
 import { PropsWithChildren } from "react";
 import AuthProvider from "./providers/AuthProvider";
 import QueryClientProvider from "./providers/QueryClientProvider";
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
+dayjs.extend(relativeTime);
 
 export const metadata: Metadata = {
   title: 'Issue Tracker',

@@ -1,5 +1,6 @@
 import { Issue, Status } from "@prisma/client";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
+import { colorProp } from "@radix-ui/themes";
 
 export type StatusFilterItems = Status | "all"
 
@@ -25,3 +26,5 @@ export type ChartType = {
     open: number,
     inProgress: number
 }
+
+export const defaultColorType = colorProp.default;
