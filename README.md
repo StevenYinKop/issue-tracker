@@ -101,8 +101,8 @@ References: Radix UI Get Started
 Follow the handbook to integrate the Radix UI
 
 ## create /app/issues/new/page.tsx
-<TextField>
-<TextArea>
+<TextField />
+<TextArea />
 
 ## Customzing Radix UI Theme
 1. declare <ThemePanel> inside <Theme>

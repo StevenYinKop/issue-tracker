@@ -26,11 +26,12 @@ const Issue = async ({ searchParams }: {
     skip: (actualPage - 1) * size,
     take: size
   });
+  console.log(totalPage)
   return (
     <Flex gap="2" direction={"column"}>
       <IssueActions />
       <IssueTable issues={issues} />
-      <Pagination totalPage={totalPage} total={count} page={actualPage} size={size} />
+      {totalPage > 1 && <Pagination totalPage={totalPage} total={count} page={actualPage} size={size} />}
     </Flex>
   )
 }

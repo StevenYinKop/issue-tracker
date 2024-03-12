@@ -24,11 +24,9 @@ const NavBar = () => {
         'text-zinc-900': currentPath === link.link
     });
 
-
-
     return (
         // <nav className='border-b mb-5 px-5 h-14'>
-        <nav className="border-b mb-5 px-5 py-3">
+        <nav className="border-b mb-2 px-5 py-3">
             <Container>
                 <Flex align="center" gap="4" justify="between">
                     <Box >

@@ -8,8 +8,8 @@ export const createIssueSchema = z.object({
     company: z.string().min(1).max(255).nonempty(),
     companyLink: z.string().url().nonempty(),
     jobLink: z.string().url().nonempty(),
-    phoneNumber: z.string().regex(regexp.phoneNumber).nonempty(),
-    email: z.string().max(255).email().optional(),
+    phoneNumber: z.string().optional().or(z.string().regex(regexp.phoneNumber).nonempty()),
+    email: z.string().max(255).optional().or(z.string().email()),
     location: z.string().max(255).optional(),
     tags: z.string().max(255).optional(),
     workModel: z.nativeEnum(WorkModel)

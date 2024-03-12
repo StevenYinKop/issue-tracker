@@ -21,7 +21,8 @@ const EditIssueButton = ({ issue }: { issue: Issue }) => {
             const response = await axios.delete(`/api/issue/${issue.id}`);
             if (response.status === 200) {
                 setOpen(false);
-                router.push("/");
+                router.push("/issue")
+                router.refresh()
             } else {
                 // response.data
             }

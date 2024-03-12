@@ -59,7 +59,8 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
             func()
                 .then(response => {
                     if (response.status === 200 || response.status === 201) {
-                        router.push("/")
+                        router.push("/issue")
+                        router.refresh()
                     } else {
                         setError(response.statusText);
                     }
